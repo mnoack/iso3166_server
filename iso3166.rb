@@ -7,6 +7,10 @@ require 'db/connect'
 require 'country'
 require 'subdivision'
 
+configure :production do
+  require 'newrelic_rpm'
+end
+
 get '/countries' do
   res = Hash[Country.from_cache.map{ |c| [c.code, c.name] }]
   [200, {"Content-Type" => "application/json"}, [res.to_json]]
